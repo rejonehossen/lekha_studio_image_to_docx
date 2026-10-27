@@ -1,0 +1,17 @@
+{% extends "studio/base.html" %}
+{% block content %}
+<h1>Book design — {{ project.title }}</h1>
+<form method="post" class="form">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button class="btn primary">Apply</button>
+</form>
+<p class="muted">
+  Note: Preset applies page size, margins, body font name, size, line spacing, and
+  first-line indent for the generated DOCX. Font must be installed on the machine
+  that opens the file for exact rendering.
+</p>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'studio/js/book_designer.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,88 @@
+.sidebar {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 220px;
+    bottom: 0;
+    background: var(--panel);
+    border-right: 1px solid var(--border);
+    padding: 1rem;
+}
+
+.sidebar-item {
+    display: block;
+    padding: .5rem .75rem;
+    border-radius: 8px;
+    color: var(--ink);
+    text-decoration: none;
+    margin-bottom: .25rem;
+}
+
+.sidebar-item:hover {
+    background: var(--accent-soft);
+}
+
+.upload-zone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    text-align: center;
+    background: var(--panel);
+    transition: border-color .15s ease;
+}
+
+.upload-zone.dragover {
+    border-color: var(--accent);
+}
+
+.upload-input {
+    display: none;
+}
+
+.upload-label {
+    cursor: pointer;
+    display: block;
+}
+
+.progress-panel {
+    margin-top: 1rem;
+}
+
+.progress-bar {
+    height: 8px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--accent);
+    transition: width .25s ease;
+}
+
+.modal {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    background: var(--panel);
+    color: var(--ink);
+}
+
+.modal::backdrop {
+    background: rgba(0, 0, 0, .4);
+}
+
+.editor-toolbar {
+    display: flex;
+    gap: .35rem;
+    margin-bottom: .5rem;
+    flex-wrap: wrap;
+}
+
+.design-panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem;
+}

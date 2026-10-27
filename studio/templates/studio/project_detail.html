@@ -1,0 +1,49 @@
+{% extends "studio/base.html" %}
+{% block content %}
+<h1>{{ project.title }}</h1>
+<p class="muted">Status: <strong>{{ project.get_status_display }}</strong></p>
+{% if project.error_message %}<p class="error">{{ project.error_message }}</p>{% endif %}
+
+<div class="actions">
+  <a class="btn" href="{% url 'studio:upload' project.id %}">Upload images</a>
+  {% if project.source_images %}
+    <form method="post" action="{% url 'studio:process' project.id %}" class="inline">
+      {% csrf_token %}
+      <select name="language" class="input">
+        <option value="auto">Auto</option>
+        <option value="bangla">Bangla</option>
+        <option value="english">English</option>
+        <option value="mixed">Mixed</option>
+      </select>
+      <button class="btn primary">Run OCR</button>
+    </form>
+  {% endif %}
+  <a class="btn" href="{% url 'studio:editor' project.id %}">Open editor</a>
+  <a class="btn" href="{% url 'studio:book_designer' project.id %}">Book design</a>
+  <form method="post" action="{% url 'studio:export' project.id %}" class="inline">
+    {% csrf_token %}<button class="btn">Export DOCX</button>
+  </form>
+  <form method="post" action="{% url 'studio:duplicate' project.id %}" class="inline">
+    {% csrf_token %}<button class="btn">Duplicate</button>
+  </form>
+  <form method="post" action="{% url 'studio:delete' project.id %}" class="inline" onsubmit="return confirm('Delete this project?')">
+    {% csrf_token %}<button class="btn danger">Delete</button>
+  </form>
+</div>
+
+{% if project.export_history %}
+<h2>Exports</h2>
+<ul>
+  {% for e in project.export_history %}
+    <li><a href="{% url 'studio:download' project.id e.filename %}">{{ e.filename }}</a> ({{ e.bytes }} bytes)</li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+<h2>Source images ({{ project.source_images|length }})</h2>
+<ol>
+  {% for img in project.source_images %}
+    <li>{{ img.original_name }} — {{ img.width }}×{{ img.height }} ({{ img.format }})</li>
+  {% endfor %}
+</ol>
+{% endblock %}

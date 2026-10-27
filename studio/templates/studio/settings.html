@@ -1,0 +1,22 @@
+{% extends "studio/base.html" %}
+{% block content %}
+<h1>Settings & Diagnostics</h1>
+
+<h2>OCR</h2>
+<ul>
+  <li>Tesseract binary: <strong>{{ ocr.tesseract_binary|yesno:"available,missing" }}</strong></li>
+  <li>Installed languages: {{ ocr.installed_languages|join:", "|default:"none" }}</li>
+</ul>
+
+<h2>Limits</h2>
+<ul>
+  <li>Max per-file size: {{ max_upload_mb }} MB</li>
+  <li>Max batch images: {{ max_batch }}</li>
+</ul>
+
+<h2>Fonts commonly used with Bangla</h2>
+<p class="muted">Not auto-detected; install on your system for correct rendering:</p>
+<ul>{% for f in fonts_hint %}<li>{{ f }}</li>{% endfor %}</ul>
+{% endblock %}
+
+

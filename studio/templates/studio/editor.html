@@ -1,0 +1,25 @@
+{% extends "studio/base.html" %}
+{% load static %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'studio/css/editor.css' %}">{% endblock %}
+{% block content %}
+<h1>Editor — {{ project.title }}</h1>
+<form method="post" class="editor-form">
+  {% csrf_token %}
+  <textarea name="text" rows="24" class="input editor-area" spellcheck="true">{{ project.edited_text }}</textarea>
+  <div class="editor-actions">
+    <button name="action" value="save" class="btn primary">Save</button>
+    <button name="action" value="clean" class="btn">Apply conservative cleanup</button>
+    <a class="btn" href="{% url 'studio:project_detail' project.id %}">Back</a>
+  </div>
+</form>
+{% if project.extracted_text %}
+<details>
+  <summary>View raw OCR text</summary>
+  <pre class="raw">{{ project.extracted_text }}</pre>
+</details>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'studio/js/editor.js' %}"></script>
+{% endblock %}

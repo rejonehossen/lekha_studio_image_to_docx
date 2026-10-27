@@ -1,0 +1,4 @@
+<a class="card" href="{% url 'studio:project_detail' project.id %}">
+  <h3>{{ project.title }}</h3>
+  <p class="muted">{{ project.get_status_display }} · {{ project.source_images|length }} image(s)</p>
+</a>

@@ -1,0 +1,54 @@
+{% extends "studio/base.html" %}
+{% block content %}
+<div class="hero">
+  <h1>Your publishing studio</h1>
+  <p>Turn Bangla & English images into editable book-quality Word documents.</p>
+  <a class="btn primary" href="{% url 'studio:project_create' %}">New Project</a>
+</div>
+
+<section class="stats">
+  <div class="stat"><span>{{ total }}</span>Total</div>
+  <div class="stat"><span>{{ in_progress }}</span>In progress</div>
+  <div class="stat"><span>{{ completed }}</span>Completed</div>
+</section>
+
+<form method="get" class="filters">
+  <input name="q" value="{{ q }}" placeholder="Search title or text…" class="input">
+  <select name="status" class="input">
+    <option value="">All statuses</option>
+    {% for val, label in statuses %}
+      <option value="{{ val }}" {% if val == status %}selected{% endif %}>{{ label }}</option>
+    {% endfor %}
+  </select>
+  <button class="btn">Filter</button>
+</form>
+
+{% if projects %}
+<div class="grid">
+  {% for p in projects %}
+    <a class="card" href="{% url 'studio:project_detail' p.id %}">
+      <h3>{{ p.title }}</h3>
+      <p class="muted">{{ p.get_status_display }} · {{ p.source_images|length }} image(s)</p>
+    </a>
+  {% endfor %}
+</div>
+{% else %}
+  <div class="empty">
+    <p>No projects yet.</p>
+    <a class="btn primary" href="{% url 'studio:project_create' %}">Start your first project</a>
+  </div>
+{% endif %}
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+

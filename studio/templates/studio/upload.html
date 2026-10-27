@@ -1,0 +1,15 @@
+{% extends "studio/base.html" %}
+{% block content %}
+<h1>Upload images to “{{ project.title }}”</h1>
+<form method="post" enctype="multipart/form-data" class="form">
+  {% csrf_token %}
+  <input type="file" name="images" multiple accept="image/*" class="input">
+  <button class="btn primary">Upload</button>
+</form>
+{% for e in errors %}<p class="error">{{ e }}</p>{% endfor %}
+<p class="muted">Max {{ project.source_images|length }} existing + new ≤ app limit.</p>
+<a class="btn" href="{% url 'studio:project_detail' project.id %}">Back to project</a>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'studio/js/uploads.js' %}"></script>
+{% endblock %}
