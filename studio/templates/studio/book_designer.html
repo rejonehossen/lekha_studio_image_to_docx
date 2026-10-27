@@ -3,15 +3,11 @@
 <h1>Book design — {{ project.title }}</h1>
 <form method="post" class="form">
   {% csrf_token %}
-  {{ form.as_p }}
+  {% include "studio/components/design_panel.html" %}
   <button class="btn primary">Apply</button>
 </form>
 <p class="muted">
-  Note: Preset applies page size, margins, body font name, size, line spacing, and
-  first-line indent for the generated DOCX. Font must be installed on the machine
-  that opens the file for exact rendering.
+  Preset controls page size, margins, body font name, size, line spacing, and
+  first-line indent. Fonts must be installed where the file is opened.
 </p>
-{% endblock %}
-{% block extra_js %}
-<script src="{% static 'studio/js/book_designer.js' %}"></script>
 {% endblock %}

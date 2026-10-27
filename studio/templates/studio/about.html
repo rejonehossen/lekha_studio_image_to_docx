@@ -1,0 +1,30 @@
+{% extends "studio/base.html" %}
+{% block title %}About — {{ PRODUCT_NAME }}{% endblock %}
+{% block content %}
+<h1>About {{ PRODUCT_NAME }}</h1>
+<p>
+  {{ PRODUCT_NAME }} is a local-first Bangla &amp; English OCR publishing studio.
+  Upload images, extract text with Tesseract, edit it in place, and generate
+  real, editable Microsoft Word documents with professional typography.
+</p>
+<p>
+  This application runs entirely on your machine. It has no login, no user
+  accounts, no REST API, and no external services. Data is stored in SQLite
+  and on your local filesystem.
+</p>
+
+<h2>Technical summary</h2>
+<ul>
+  <li>Django (one app: <code>studio</code>, one custom model: <code>Project</code>)</li>
+  <li>SQLite database</li>
+  <li>Tesseract OCR</li>
+  <li>python-docx for DOCX export</li>
+</ul>
+
+<h2>Honest scope</h2>
+<p>
+  Handwriting Bangla recognition is not provided. Fonts are named in the DOCX
+  but not embedded. Word rendering may reflow pages across different office
+  applications.
+</p>
+{% endblock %}

@@ -2,21 +2,42 @@ from django import forms
 from .models import Project
 
 
+# --- Multi-file support (Django 4.2+ requires this pattern) ---------------
+
+class MultipleFileInput(forms.FileInput):
+    """FileInput subclass that permits <input type="file" multiple>."""
+    allow_multiple_selected = True
+
+
+class MultipleFileField(forms.FileField):
+    """FileField that returns a list of files, validating each one."""
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("widget", MultipleFileInput(attrs={"class": "input"}))
+        super().__init__(*args, **kwargs)
+
+    def clean(self, data, initial=None):
+        single_clean = super().clean
+        if isinstance(data, (list, tuple)):
+            return [single_clean(d, initial) for d in data]
+        return [single_clean(data, initial)]
+
+
+# --- Forms ---------------------------------------------------------------
+
 class ProjectCreateForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = ["title", "description"]
         widgets = {
-            "title": forms.TextInput(attrs={"class": "input", "placeholder": "e.g. আমার প্রথম উপন্যাস"}),
+            "title": forms.TextInput(
+                attrs={"class": "input", "placeholder": "e.g. আমার প্রথম উপন্যাস"}
+            ),
             "description": forms.Textarea(attrs={"class": "input", "rows": 3}),
         }
 
 
 class ImageUploadForm(forms.Form):
-    images = forms.FileField(
-        widget=forms.ClearableFileInput(attrs={"multiple": True, "class": "input"}),
-        required=True,
-    )
+    images = MultipleFileField(required=True)
 
     def clean_images(self):
         files = self.files.getlist("images")

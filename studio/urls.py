@@ -16,4 +16,9 @@ urlpatterns = [
     path("projects/<uuid:project_id>/duplicate/", views.duplicate, name="duplicate"),
     path("projects/<uuid:project_id>/delete/", views.delete, name="delete"),
     path("settings/", views.settings_view, name="settings"),
+        path("help/", views.help_view, name="help"),
+    path("about/", views.about_view, name="about"),
+    path("projects/<uuid:project_id>/processing/", views.processing, name="processing"),
+    path("projects/<uuid:project_id>/preview/", views.preview, name="preview"),
 ]
+

@@ -1,7 +1,13 @@
 import shutil
+import os
 from dataclasses import dataclass
 from typing import Optional
 
+import pytesseract
+from PIL import Image
+
+# Explicitly set the path to where Tesseract is installed on Windows
+pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 @dataclass
 class OCRResult:
@@ -11,10 +17,8 @@ class OCRResult:
     confidence: Optional[float] = None
     error: Optional[str] = None
 
-
 class ProviderUnavailable(Exception):
     pass
-
 
 class TesseractProvider:
     name = "tesseract"
@@ -24,14 +28,18 @@ class TesseractProvider:
 
     def is_available(self) -> bool:
         if self._available is None:
-            self._available = shutil.which("tesseract") is not None
+            # Check if the explicit path exists
+            if os.path.exists(pytesseract.pytesseract.tesseract_cmd):
+                self._available = True
+            else:
+                # Fallback to checking the system PATH
+                self._available = shutil.which("tesseract") is not None
         return self._available
 
     def installed_langs(self) -> list:
         if not self.is_available():
             return []
         try:
-            import pytesseract
             return sorted(pytesseract.get_languages(config=""))
         except Exception:
             return []
@@ -60,9 +68,7 @@ class TesseractProvider:
     def recognize(self, image_path, mode: str = "auto") -> OCRResult:
         if not self.is_available():
             return OCRResult(text="", engine=self.name, lang=mode,
-                             error="Tesseract binary not found on PATH.")
-        import pytesseract
-        from PIL import Image
+                             error="Tesseract binary not found.")
         try:
             lang = self.lang_string(mode)
         except ProviderUnavailable as e:
@@ -79,3 +85,7 @@ def get_provider(name: str = "tesseract"):
     if name == "tesseract":
         return TesseractProvider()
     raise ProviderUnavailable(f"Unknown or unconfigured OCR provider: {name}")
+
+
+
+

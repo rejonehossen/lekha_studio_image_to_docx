@@ -1,0 +1,25 @@
+{% extends "studio/base.html" %}
+{% block title %}Preview — {{ project.title }}{% endblock %}
+{% block content %}
+<h1>Document preview — {{ project.title }}</h1>
+<p class="muted">
+  This is a plain-text preview of the current content. The DOCX export is the
+  definitive layout. A live page-preview renderer is not implemented.
+</p>
+
+{% if project.structured_content.blocks %}
+  <article class="doc-preview">
+  {% for block in project.structured_content.blocks %}
+    {% if block.type == "heading" %}
+      <h2>{{ block.text }}</h2>
+    {% else %}
+      <p>{{ block.text|linebreaksbr }}</p>
+    {% endif %}
+  {% endfor %}
+  </article>
+{% else %}
+  <pre class="raw">{{ project.edited_text|default:project.extracted_text }}</pre>
+{% endif %}
+{% include "studio/components/page_preview.html" %}
+<a class="btn" href="{% url 'studio:project_detail' project.id %}">Back</a>
+{% endblock %}

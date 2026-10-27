@@ -180,10 +180,34 @@ def delete(request, project_id):
 
 
 def settings_view(request):
+    from django.conf import settings as dj_settings
+    from .services import settings_service
     ctx = {
         "ocr": settings_service.ocr_diagnostics(),
         "fonts_hint": settings_service.known_fonts_hint(),
-        "max_upload_mb": settings.MAX_UPLOAD_BYTES // (1024 * 1024),
-        "max_batch": settings.MAX_BATCH_IMAGES,
+        "storage": settings_service.storage_info(dj_settings.MEDIA_ROOT),
+        "max_upload_mb": dj_settings.MAX_UPLOAD_BYTES // (1024 * 1024),
+        "max_batch": dj_settings.MAX_BATCH_IMAGES,
     }
     return render(request, "studio/settings.html", ctx)
+
+
+
+
+
+def help_view(request):
+    return render(request, "studio/help.html")
+
+
+def about_view(request):
+    return render(request, "studio/about.html")
+
+
+def processing(request, project_id):
+    project = get_object_or_404(Project, pk=project_id)
+    return render(request, "studio/processing.html", {"project": project})
+
+
+def preview(request, project_id):
+    project = get_object_or_404(Project, pk=project_id)
+    return render(request, "studio/document_preview.html", {"project": project})

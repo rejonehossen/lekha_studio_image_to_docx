@@ -1,11 +1,13 @@
 {% extends "studio/base.html" %}
 {% block content %}
-<h1>Settings & Diagnostics</h1>
+<h1>Settings &amp; Diagnostics</h1>
 
 <h2>OCR</h2>
 <ul>
   <li>Tesseract binary: <strong>{{ ocr.tesseract_binary|yesno:"available,missing" }}</strong></li>
-  <li>Installed languages: {{ ocr.installed_languages|join:", "|default:"none" }}</li>
+  <li>English (<code>eng</code>): <strong>{{ ocr.english_available|yesno:"yes,no" }}</strong></li>
+  <li>Bangla (<code>ben</code>): <strong>{{ ocr.bangla_available|yesno:"yes,no" }}</strong></li>
+  <li>All installed languages: {{ ocr.installed_languages|join:", "|default:"none" }}</li>
 </ul>
 
 <h2>Limits</h2>
@@ -18,5 +20,3 @@
 <p class="muted">Not auto-detected; install on your system for correct rendering:</p>
 <ul>{% for f in fonts_hint %}<li>{{ f }}</li>{% endfor %}</ul>
 {% endblock %}
-
-

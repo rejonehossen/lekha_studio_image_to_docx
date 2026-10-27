@@ -5,6 +5,7 @@ exactly what a real Word document does. We do not fabricate entries.
 """
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
+from . import toc_builder
 
 
 def add_toc_field(doc):

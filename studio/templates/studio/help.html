@@ -1,0 +1,44 @@
+{% extends "studio/base.html" %}
+{% block title %}Help — {{ PRODUCT_NAME }}{% endblock %}
+{% block content %}
+<h1>Help</h1>
+
+<section>
+  <h2>Workflow</h2>
+  <ol>
+    <li><strong>New Project</strong> — give it a title.</li>
+    <li><strong>Upload</strong> — add one or more images (JPEG, PNG, WebP, TIFF).</li>
+    <li><strong>Run OCR</strong> — choose Auto, Bangla, English, or Mixed.</li>
+    <li><strong>Editor</strong> — review, edit, save. Revisions are kept.</li>
+    <li><strong>Book design</strong> — pick a preset.</li>
+    <li><strong>Export DOCX</strong> — downloads a real editable Word file.</li>
+  </ol>
+</section>
+
+<section>
+  <h2>OCR language options</h2>
+  <ul>
+    <li><strong>Auto</strong> — uses every installed Tesseract language.</li>
+    <li><strong>Bangla only</strong> — requires <code>ben</code> language data.</li>
+    <li><strong>English only</strong> — requires <code>eng</code>.</li>
+    <li><strong>Mixed Bangla-English</strong> — requires both.</li>
+  </ul>
+  <p>If a language is missing, you'll see an explicit error — never silent empty output.</p>
+</section>
+
+<section>
+  <h2>What this app does <em>not</em> do</h2>
+  <ul>
+    <li>Handwriting Bangla OCR — no handwriting model is bundled.</li>
+    <li>PDF input.</li>
+    <li>Live page preview in the browser.</li>
+    <li>Background OCR queue — OCR runs synchronously.</li>
+    <li>Font embedding in DOCX — fonts are referenced by name only.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Diagnostics</h2>
+  <p>Visit <a href="{% url 'studio:settings' %}">Settings</a> to check Tesseract availability and current limits.</p>
+</section>
+{% endblock %}

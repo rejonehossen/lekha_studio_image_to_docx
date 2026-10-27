@@ -1,0 +1,22 @@
+{% extends "studio/base.html" %}
+{% block title %}Processing — {{ project.title }}{% endblock %}
+{% block content %}
+<h1>Processing “{{ project.title }}”</h1>
+
+{% if project.status == "failed" %}
+  <p class="error">Processing failed: {{ project.error_message|default:"Unknown error." }}</p>
+  <a class="btn" href="{% url 'studio:project_detail' project.id %}">Back to project</a>
+{% else %}
+  <p>Status: <strong>{{ project.get_status_display }}</strong></p>
+  <p class="muted">
+    OCR runs synchronously in this build. Return to the project page to check
+    the result. A background queue is not implemented.
+  </p>
+  <a class="btn" href="{% url 'studio:project_detail' project.id %}">View project</a>
+{% endif %}
+{% endblock %}
+
+
+
+
+
